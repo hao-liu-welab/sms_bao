@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Sms bao by krongk</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Sms bao</h1>
+        <h2>ruby api for www.smsbao.com</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/krongk/sms_bao/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/krongk/sms_bao/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/krongk/sms_bao" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <p>Sms_bao 是一个关于短信服务www.smsbao.com的Ruby API. 简单封装了短信发送和接受方法。</p>
+
+<hr><h3>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>短信发送API</h3>
+
+<pre><code>http://www.smsbao.com/sms?u=USERNAME&amp;p=PASSWORD&amp;m=PHONE&amp;c=CONTENT 
+
+USERNAME：在本短信平台注册的用户名 
+PASSWORD：平台登录密码MD5后的值 
+PHONE：目标手机号码，多个手机号码用半角逗号分割 
+CONTENT：发送内容，采用UTF-8 URL ENCODE 
+</code></pre>
+
+<p>返回 '0' 视为发送成功，其他内容为错误提示内容</p>
+
+<h3>
+<a name="api-1" class="anchor" href="#api-1"><span class="octicon octicon-link"></span></a>短信接收API</h3>
+
+<pre><code>http://xxx.xxx.xxx/xxx?m=PHONE&amp;c=CONTENT 
+
+http://xxx.xxx.xxx/xxx：接收短信的URL地址 
+PHONE：发送方手机号码 
+CONTENT：短信内容，采用UTF-8 URL ENCODE 
+</code></pre>
+
+<p>返回 '0' 视为接收成功，其他内容为错误提示内容</p>
+
+<h3>
+<a name="api-2" class="anchor" href="#api-2"><span class="octicon octicon-link"></span></a>查询余额API</h3>
+
+<pre><code>http://www.smsbao.com/query?u=USERNAME&amp;p=PASSWORD 
+
+USERNAME：在本短信平台注册的用户名 
+PASSWORD：平台登录密码MD5后的值 
+</code></pre>
+
+<p>第一行返回 '0' 视为发送成功，其他内容为错误提示内容</p>
+
+<p>如果第一行返回成功，则第二行返回 '发送条数,剩余条数'</p>
+
+<h3>
+<a name="" class="anchor" href="#"><span class="octicon octicon-link"></span></a>错误代码表</h3>
+
+<pre><code>30：密码错误 
+40：账号不存在
+41：余额不足
+42：帐号过期
+43：IP地址限制
+50：内容含有敏感词
+51：手机号码不正确
+</code></pre>
+
+<h3>
+<a name="-1" class="anchor" href="#-1"><span class="octicon octicon-link"></span></a>测试代码</h3>
+
+<pre><code>require 'sms_bao'
+
+u_content = ["您好，乐活外卖预定成功"]
+u_content &lt;&lt; "餐厅电话：#{shop.shop_contact.tel_phone}"
+u_content &lt;&lt; "如果长时间还未送达，请直接拨打电话联系"
+u_status = SmsBao.send(order.phone, u_content.join(","))
+unless status == 'success'
+  flash[:tips] = "手机短信发送失败"
+  render action: "edit"
+  return
+end
+</code></pre>
+
+<h3>
+<a name="-2" class="anchor" href="#-2"><span class="octicon octicon-link"></span></a>关于我</h3>
+
+<p><a href="http://www.about.me/kenrome">http://www.about.me/kenrome</a></p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
